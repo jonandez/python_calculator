@@ -6,7 +6,7 @@ WORKDIR /app
 # Install app dependencies
 # COPY package*.json .
 COPY . .
-RUN pip install freeze.txt
+RUN pip install -r requirements.txt
 
 # Copy app source
 COPY . .
