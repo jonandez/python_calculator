@@ -48,8 +48,6 @@ pipeline {
             enableConfigSubstitution: true
             )               
         }
-
-        }
         stage ("docker logout") {
             steps {
                 sh "docker logout"
