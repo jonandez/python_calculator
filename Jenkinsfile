@@ -35,7 +35,10 @@ pipeline {
         }
         stage ("kubernetes deployment") {
             steps {
-                sh "kubectl ${params.action} -f manifest.yaml"
+                kubeconfig(credentialsId: 'kubernetes', serverUrl: 'https://F452DA7875BAD7A334821BAA8AB6877E.gr7.us-east-1.eks.amazonaws.com') {
+                    sh "kubectl ${params.action} -f manifest.yaml"
+                }
+                
             }
         }
         stage ("docker logout") {
