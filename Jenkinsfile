@@ -2,9 +2,6 @@ properties([parameters([choice(choices: 'apply\ndelete', name: 'action')])])
 
 pipeline {
     agent any
-    // tools {
-    //     terraform 'terraform'
-    // }
     
     environment {
         DOCKERHUB_CREDENTIALS_PASSWS = credentials('dockerhub')
@@ -33,23 +30,15 @@ pipeline {
                 sh "docker push josegrelnx/python-calc:latest"
             }
         }
-        // stage ("kubernetes deployment") {
-        //     steps {
-        //         kubeconfig(credentialsId: 'kubernetes', serverUrl: 'https://F452DA7875BAD7A334821BAA8AB6877E.gr7.us-east-1.eks.amazonaws.com') {
-        //             sh "kubectl ${params.action} -f manifest.yaml"
-        //         }
-                
-        //     }
-
-      stage ("Deploy app to EKS" {
+        stage ("Deploy app to EKS") {
             steps {
-                kubernetesDeploy(
-                    configs: 'manifest.yaml',
-                    kubeconfigId: 'kubernetes',
-                    enableConfigSubstitution: true
-                )    
+                withCredentials([kubeconfigContent(credentialsId: 'kubernetes', variable: 'KUBECONFIG_CONTENT')]) {
+                    sh "aws eks update-kubeconfig --name eks_cluster --region us-east-1"
+                    sh "kubectl apply -f manifest.yaml"
+                }    
             }           
         }
+        
         stage ("docker logout") {
             steps {
                 sh "docker logout"
