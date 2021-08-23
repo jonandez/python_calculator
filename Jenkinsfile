@@ -14,9 +14,14 @@ pipeline {
                 git 'https://github.com/jonandez/terra_kube_cluster.git'
             }
         }
+    stage ("ccat dockerfile"){
+            steps {
+                sh "cat Dockerfile"
+            }
+        }
         stage ("docker build image") {
             steps {
-                sh "docker build -t python-calc:latest ."
+                sh "docker build -t josegrelnx/python-calc:latest ."
             }
         }
         stage ("docker login") {
