@@ -21,7 +21,9 @@ pipeline {
         }
         stage ("docker login") {
             steps {
-                sh "echo ${DOCKERHUB_CREDENTIALS_PASSWS} | docker login -u josegrelnx --password-stdin"
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USER')]) {
+                    sh "echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USER} --password-stdin"
+                }                
             }
         }
         stage ("docker push") {
