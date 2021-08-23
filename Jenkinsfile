@@ -1,3 +1,5 @@
+properties([parameters([choice(choices: 'apply\ndelete', name: 'action')])])
+
 pipeline {
     agent any
     // tools {
@@ -34,6 +36,12 @@ pipeline {
         stage ("docker logout") {
             steps {
                 sh "docker logout"
+            }
+        }
+                }
+        stage ("kubernetes deployment") {
+            steps {
+                sh "kubectl ${params.action} -f manifest.yaml"
             }
         }
     }
