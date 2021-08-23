@@ -33,13 +33,22 @@ pipeline {
                 sh "docker push josegrelnx/python-calc:latest"
             }
         }
-        stage ("kubernetes deployment") {
-            steps {
-                kubeconfig(credentialsId: 'kubernetes', serverUrl: 'https://F452DA7875BAD7A334821BAA8AB6877E.gr7.us-east-1.eks.amazonaws.com') {
-                    sh "kubectl ${params.action} -f manifest.yaml"
-                }
+        // stage ("kubernetes deployment") {
+        //     steps {
+        //         kubeconfig(credentialsId: 'kubernetes', serverUrl: 'https://F452DA7875BAD7A334821BAA8AB6877E.gr7.us-east-1.eks.amazonaws.com') {
+        //             sh "kubectl ${params.action} -f manifest.yaml"
+        //         }
                 
-            }
+        //     }
+
+      stage ('K8S Deploy') {   
+        kubernetesDeploy(
+            configs: 'manifest.yaml',
+            kubeconfigId: 'kubernetes',
+            enableConfigSubstitution: true
+            )               
+        }
+
         }
         stage ("docker logout") {
             steps {
