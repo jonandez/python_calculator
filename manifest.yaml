@@ -1,0 +1,91 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: production
+  labels:
+    app: python-calculator
+
+---
+# Aqui hablanmos de deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: production
+  annotations:
+    kubernetes.io/change-cause: "python"
+  name: deployment-python-calculator-production
+  labels:
+    app: python-calculator
+# Aqui hablamos de replica set
+spec:
+  revisionHistoryLimit: 5
+  replicas: 5
+  selector:
+    matchLabels:
+      app: python-calculator
+# Aca  empezamoss a hablar de pods
+  template:
+    metadata:
+      labels:
+        app: python-calculator
+    spec:
+      containers:
+      - name: python
+        image: python:3.6-alpine
+        command: [ 'sh', '-c', 'echo "estoy con el contenedor python1 en prod" > index.html && python -m http.server 8082' ]
+        ports:
+          - containerPort: 80
+        resources:
+          requests:
+            memory: 100Mi
+            cpu: 100m
+          limits:
+            memory: 500Mi
+            cpu: 500m
+
+# Create service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: production
+  name: python-calculator-node-port
+  labels:
+    app: python-calculator
+spec:
+  type: NodePort
+  selector:
+    app: python-calculator
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      name: port1
+    # - protocol: TCP
+    #   port: 8081
+    #   targetPort: 8083
+    #   name: port2
+
+
+# Create Load Balancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: production
+  name: python-calculator-load-balancer
+  labels:
+    app: python-calculator
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
+    # service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+    service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
+spec:
+  type: LoadBalancer
+  selector:
+    app: python-calculator
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
