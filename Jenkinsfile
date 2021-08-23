@@ -21,7 +21,7 @@ pipeline {
         }
         stage ("docker login") {
             steps {
-                sh "echo $DOCKERHUB_CREDENTIALS_PASSWS | docker login -u josegrelnx --password-stdin"
+                sh "echo ${DOCKERHUB_CREDENTIALS_PASSWS} | docker login -u josegrelnx --password-stdin"
             }
         }
         stage ("docker push") {
