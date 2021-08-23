@@ -33,15 +33,15 @@ pipeline {
                 sh "docker push josegrelnx/python-calc:latest"
             }
         }
-        stage ("docker logout") {
-            steps {
-                sh "docker logout"
-            }
         }
         stage ("kubernetes deployment") {
             steps {
                 sh "kubectl ${params.action} -f manifest.yaml"
             }
+        }
+        stage ("docker logout") {
+            steps {
+                sh "docker logout"
         }
     }
 }
