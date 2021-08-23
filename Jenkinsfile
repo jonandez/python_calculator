@@ -41,12 +41,14 @@ pipeline {
                 
         //     }
 
-      stage ('K8S Deploy') {   
-        kubernetesDeploy(
-            configs: 'manifest.yaml',
-            kubeconfigId: 'kubernetes',
-            enableConfigSubstitution: true
-            )               
+      stage ("Deploy app to EKS" {
+            steps {
+                kubernetesDeploy(
+                    configs: 'manifest.yaml',
+                    kubeconfigId: 'kubernetes',
+                    enableConfigSubstitution: true
+                )    
+            }           
         }
         stage ("docker logout") {
             steps {
