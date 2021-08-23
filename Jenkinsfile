@@ -32,10 +32,8 @@ pipeline {
         }
         stage ("Deploy app to EKS") {
             steps {
-                withCredentials([kubeconfigContent(credentialsId: 'kubernetes', variable: 'KUBECONFIG_CONTENT')]) {
-                    sh "aws eks update-kubeconfig --name eks_cluster --region us-east-1"
-                    sh "kubectl ${params.action} -f manifest.yaml"
-                }    
+                sh "aws eks update-kubeconfig --name eks_cluster --region us-east-1"
+                sh "kubectl ${params.action} -f manifest.yaml" 
             }           
         }
         
