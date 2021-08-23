@@ -38,7 +38,6 @@ pipeline {
                 sh "docker logout"
             }
         }
-                }
         stage ("kubernetes deployment") {
             steps {
                 sh "kubectl ${params.action} -f manifest.yaml"
