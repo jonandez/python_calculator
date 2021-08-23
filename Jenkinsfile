@@ -16,7 +16,7 @@ pipeline {
         }
         stage ("docker build image") {
             steps {
-                sh "docker build -t josegrelnx/python-calc:latest ."
+                sh "docker build -t python-calc:latest ."
             }
         }
         stage ("docker login") {
