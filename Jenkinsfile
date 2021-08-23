@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage ("checkout from git"){
             steps {
-                git 'https://github.com/jonandez/terra_kube_cluster.git'
+                git 'https://github.com/jonandez/python_calculator.git'
             }
         }
     stage ("cat dockerfile"){
