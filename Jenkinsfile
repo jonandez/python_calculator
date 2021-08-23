@@ -14,11 +14,6 @@ pipeline {
                 git 'https://github.com/jonandez/python_calculator.git'
             }
         }
-    stage ("cat dockerfile"){
-            steps {
-                sh "ls -ltr"
-            }
-        }
         stage ("docker build image") {
             steps {
                 sh "docker build -t josegrelnx/python-calc:latest ."
@@ -26,7 +21,7 @@ pipeline {
         }
         stage ("docker login") {
             steps {
-                sh "echo $DOCKERHUB_CREDENTIALS | docker login -u josegrelnx --password-stdin"
+                sh "echo $DOCKERHUB_CREDENTIALS_PASSWS | docker login -u josegrelnx --password-stdin"
             }
         }
         stage ("docker push") {
