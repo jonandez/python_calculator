@@ -14,7 +14,7 @@ pipeline {
                 git 'https://github.com/jonandez/terra_kube_cluster.git'
             }
         }
-    stage ("ccat dockerfile"){
+    stage ("cat dockerfile"){
             steps {
                 sh "cat Dockerfile"
             }
