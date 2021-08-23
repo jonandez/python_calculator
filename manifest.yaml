@@ -32,8 +32,7 @@ spec:
     spec:
       containers:
       - name: python
-        image: python:3.6-alpine
-        command: [ 'sh', '-c', 'echo "estoy con el contenedor python1 en prod" > index.html && python -m http.server 8082' ]
+        image: josegrelnx/python-calc:latest
         ports:
           - containerPort: 80
         resources:
