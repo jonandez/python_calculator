@@ -16,7 +16,7 @@ pipeline {
         }
     stage ("cat dockerfile"){
             steps {
-                sh "cat Dockerfile"
+                sh "ls -ltr"
             }
         }
         stage ("docker build image") {
