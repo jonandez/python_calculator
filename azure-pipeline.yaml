@@ -1,13 +1,45 @@
 trigger:
-- main
+- development
 
 pool: Ubuntu Local
   #vmImage: ubuntu-latest
   
-name: $(Date:yyyyMMdd)$(Rev:.r)
-variables:
-  var1: value1
-jobs:
-- job: One
-  steps:
-  - script: echo First step!
+resources:
+- repo: self
+
+variables: 
+  azureSubscription: dev-az-devops-cicd
+  appName: remote-connect
+  containerRegistry: docker.io
+  dockerRegistryServiceConnection: docker-hub
+  imageRepository: josegrelnx
+  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+  tag: development
+  pool: Ubuntu Local
+
+stages:
+- stage: Build
+  displayName: Build and push container image
+  jobs:
+  - job: Build
+    displayName: Build
+    pool: $(pool)
+    steps:
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+
+
+    ## Add the below snippet at the end of your pipeline
+    - task: AzureWebAppContainer@1
+      displayName: 'Azure Web App on Container Deploy'
+      inputs:
+        azureSubscription: $(azureSubscription)
+        appName: $(appName)
+        containers: $(containerRegistry)/$(imageRepository):$(tag)
