@@ -10,9 +10,9 @@ resources:
 variables: 
   azureSubscription: dev-az-devops-cicd
   appName: remote-connect
-  containerRegistry: docker.io
+  containerRegistry: josegrelnx
   dockerRegistryServiceConnection: docker-hub
-  imageRepository: josegrelnx
+  imageRepository: python-calc
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: development
   pool: Ubuntu Local
