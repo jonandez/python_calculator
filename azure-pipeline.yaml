@@ -1,3 +1,9 @@
+trigger:
+- main
+
+pool: Ubuntu Local
+  #vmImage: ubuntu-latest
+  
 name: $(Date:yyyyMMdd)$(Rev:.r)
 variables:
   var1: value1
