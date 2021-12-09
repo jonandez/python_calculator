@@ -4,8 +4,8 @@ trigger:
 pool: Ubuntu Local
   #vmImage: ubuntu-latest
   
-resources:
-- repo: self
+# resources:
+# - repo: self
 
 variables: 
   azureSubscription: dev-az-devops-cicd
