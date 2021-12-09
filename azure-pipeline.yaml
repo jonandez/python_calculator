@@ -12,7 +12,7 @@ variables:
   appName: remote-connect
   containerRegistry: josegrelnx
   dockerRegistryServiceConnection: docker-hub
-  imageRepository: python-calc
+  imageRepository: josegrelnx/python-calc
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: development
   pool: Ubuntu Local
