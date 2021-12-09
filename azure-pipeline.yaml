@@ -12,7 +12,8 @@ variables:
   appName: remote-connect
   containerRegistry: josegrelnx
   dockerRegistryServiceConnection: docker-hub
-  imageRepository: josegrelnx/python-calc
+  buildImageRepository: josegrelnx/python-calc
+  imageRepository: python-calc
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: development
   pool: Ubuntu Local
@@ -29,7 +30,7 @@ stages:
       displayName: Build and push an image to container registry
       inputs:
         command: buildAndPush
-        repository: $(imageRepository)
+        repository: $(buildImageRepository)
         dockerfile: $(dockerfilePath)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
