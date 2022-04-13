@@ -1,0 +1,18 @@
+pipelines:
+  custom:
+    customPipelineWithRunnerStep:
+      - step:
+          name: Step 1
+          runs-on: 
+            - 'self.hosted'
+            - 'linux'
+          script:
+          - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD
+      - step:
+          name: Step 2
+          script:
+            - docker build -t josegrelnx/python-calc:latest .
+      - step:
+          name: Step 3
+          script:
+            - docker push josegrelnx/python-calc:latest
