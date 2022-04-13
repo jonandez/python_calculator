@@ -1,8 +1,15 @@
+definitions:
+  services:
+    docker: # default docker service
+      type: docker 
+      # memory: 512
 pipelines:
   custom:
     customPipelineWithRunnerStep:
       - step:
           name: Step 1
+          services:
+            - "docker"
           runs-on: 
             - 'self.hosted'
             - 'linux'
