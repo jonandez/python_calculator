@@ -4,16 +4,18 @@ definitions:
       type: docker 
       # memory: 512
 pipelines:
+  pull-requests:
+    '**':  # this runs as default for any branch not elsewhere defined
   custom:
     customPipelineWithRunnerStep:
-      - step:
-          name: Step 1
-          services:
-            - "docker"
-          runs-on: 
-            - 'self.hosted'
-            - 'linux'
-          script:
-          - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD
-          - docker build -t josegrelnx/python-calc:latest .
-          - docker push josegrelnx/python-calc:latest
+    - step:
+        name: Step 1
+        services:
+          - "docker"
+        runs-on: 
+          - 'self.hosted'
+          - 'linux'
+        script:
+        - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD
+        - docker build -t josegrelnx/python-calc:latest .
+        - docker push josegrelnx/python-calc:latest
